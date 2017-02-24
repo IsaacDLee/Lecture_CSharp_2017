@@ -12,12 +12,17 @@ namespace _1st
         {
             Console.WriteLine("Hello, World!!!");
             int sum = 0;
+            int count = 0;
 
             for (int i = 0; i < 100; i++)
+            {
                 sum += i;
+                count++;
+            }
 
             Console.WriteLine(sum);
-                
+            Console.WriteLine(count);
+
         }
     }
 }
