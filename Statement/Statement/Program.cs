@@ -117,6 +117,166 @@ namespace Statement
             }
         }
 
+        static void PrintStarWindmill()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < i + 1; j++)
+                    Console.Write('*');
+                for (int j = i; j < 4; j++)
+                    Console.Write(' ');
+                for (int j = 5; j > i; j--)
+                    Console.Write('*');
+                Console.WriteLine();
+
+            }
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 4; j > i; j--)
+                    Console.Write(' ');
+                for (int j = 0; j < i+1; j++)
+                    Console.Write('*');
+
+                for (int j = 0; j < i; j++)
+                    Console.Write(' ');
+                for (int j = 5; j > i; j--)
+                    Console.Write('*');
+                Console.WriteLine();
+
+            }
+        }
+
+        static void Fibonacci()
+        {
+            int fiboTmp1 = 1, fiboTmp2 = 1, fibo = 1;
+            int n = 20;
+
+            if (n < 2)
+                fibo = 0;
+
+            else {
+                for (int i = 2; i < n; i++) {
+                    fibo = fiboTmp1 + fiboTmp2;
+                    fiboTmp1 = fiboTmp2;
+                    fiboTmp2 = fibo;
+                }
+            }
+
+            Console.WriteLine("Complete 20th Fibonacci Number!!!");
+            Console.WriteLine(fibo);
+
+        }
+
+        static void FillOddNumber()
+        {
+            int[] score = new int[50];
+
+            for (int i = 0; i < score.Length; i++)
+                score[i] = 2 * i + 1;
+
+            Console.WriteLine("Complete Filling Odd Number!!!");
+            for (int i = 0; i < score.Length; i++)
+                Console.WriteLine(score[i]);
+
+        }
+
+        
+        static void SumValuesInArray()
+        {
+            int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
+
+            int sum = 0;
+
+            for (int i = 0; i < score.Length; i++)
+                sum += score[i];
+
+            Console.WriteLine("Complete Sum!!!");
+            Console.WriteLine(sum);
+        }
+
+        static void FindMaxInArray()
+        {
+            int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
+
+            int max = score[0];
+
+            for (int i = 1; i < score.Length; i++)
+                if ( max < score[i] )
+                    max = score[i];
+
+            Console.WriteLine("Complete Finding Max!!!");
+            Console.WriteLine(max);
+
+
+        }
+
+        static void FindMinInArray()
+        {
+            int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
+
+            int min = score[0];
+
+            for (int i = 1; i < score.Length; i++)
+                if ( min > score[i])
+                    min = score[i];
+
+            Console.WriteLine("Complete Finding Min!!!");
+            Console.WriteLine(min);
+
+
+        }
+
+        static void SelectionSort()
+        {
+            int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
+
+            
+            for (int i = 0; i < score.Length; i++)
+            {                                
+                for (int j = i+1; j < score.Length; j++)
+                    if (score[i] > score[j])
+                    {
+                        int tmp = score[i];
+                        score[i] = score[j];
+                        score[j] = tmp;
+
+                    }                        
+            }
+
+            Console.WriteLine("Complete Selection Sorting!!!");
+            for ( int i = 0; i < score.Length; i++ )
+                Console.WriteLine(score[i]);
+        }
+
+        static void BubbleSort()
+        {
+            int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
+
+
+            for (int i = 0; i < score.Length; i++)
+            {
+                for (int j = 0; j < score.Length - i - 1; j++)
+                    if (score[j] > score[j+1])
+                    {
+                        int tmp = score[j];
+                        score[j] = score[j+1];
+                        score[j+1] = tmp;
+
+                    }
+            }
+
+            Console.WriteLine("Complete Bubble Sorting!!!");
+            for (int i = 0; i < score.Length; i++)
+                Console.WriteLine(score[i]);
+        }
+
+        static int Plus(int a, int b)
+        {
+            return a + b;
+            
+        }
+
+
         static void Main(string[] args)
         {
             //IsLinesIntersected();
@@ -127,6 +287,19 @@ namespace Statement
             //PrintStarRightAngleTriangle();
             //PrintStarInvertedRightAngleTriangle();
             //PrintStarIsoscelesTriangle();
+            //PrintStarWindmill();
+            //Fibonacci();
+
+            //FillOddNumber();
+            //SumValuesInArray();
+            //FindMaxInArray();
+            //FindMinInArray();
+            //SelectionSort();
+            BubbleSort();
+
+            //float f1 = 1.0f, f2 = 2.0f;
+            //Console.WriteLine(Plus(f1, f2));
+
         }
         
     }
