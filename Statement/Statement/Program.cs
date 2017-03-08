@@ -15,7 +15,7 @@ namespace Statement
             float line2_start = 3.2f;
             float line2_end = 3.9f;
 
-            if ( line1_start > line1_end )
+            if (line1_start > line1_end)
             {
                 float tmp = line1_end;
                 line1_end = line1_start;
@@ -50,7 +50,7 @@ namespace Statement
         {
             int sum = 0;
             for (int i = 1; i < 101; i++)
-                if ( i % 2 == 0 )
+                if (i % 2 == 0)
                     sum += i;
 
             Console.WriteLine(sum);
@@ -67,7 +67,7 @@ namespace Statement
             Console.WriteLine(sum);
 
         }
-        
+
         static void PrintStarSqure()
         {
             for (int i = 0; i < 5; i++)
@@ -92,7 +92,7 @@ namespace Statement
 
         static void PrintStarInvertedRightAngleTriangle()
         {
-            for (int i = 5; i >0 ; i--)
+            for (int i = 5; i > 0; i--)
             {
                 for (int j = 0; j < i; j++)
                     Console.Write("*");
@@ -134,7 +134,7 @@ namespace Statement
             {
                 for (int j = 4; j > i; j--)
                     Console.Write(' ');
-                for (int j = 0; j < i+1; j++)
+                for (int j = 0; j < i + 1; j++)
                     Console.Write('*');
 
                 for (int j = 0; j < i; j++)
@@ -154,8 +154,10 @@ namespace Statement
             if (n < 2)
                 fibo = 0;
 
-            else {
-                for (int i = 2; i < n; i++) {
+            else
+            {
+                for (int i = 2; i < n; i++)
+                {
                     fibo = fiboTmp1 + fiboTmp2;
                     fiboTmp1 = fiboTmp2;
                     fiboTmp2 = fibo;
@@ -180,7 +182,7 @@ namespace Statement
 
         }
 
-        
+
         static void SumValuesInArray()
         {
             int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
@@ -201,7 +203,7 @@ namespace Statement
             int max = score[0];
 
             for (int i = 1; i < score.Length; i++)
-                if ( max < score[i] )
+                if (max < score[i])
                     max = score[i];
 
             Console.WriteLine("Complete Finding Max!!!");
@@ -217,7 +219,7 @@ namespace Statement
             int min = score[0];
 
             for (int i = 1; i < score.Length; i++)
-                if ( min > score[i])
+                if (min > score[i])
                     min = score[i];
 
             Console.WriteLine("Complete Finding Min!!!");
@@ -230,21 +232,21 @@ namespace Statement
         {
             int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
 
-            
+
             for (int i = 0; i < score.Length; i++)
-            {                                
-                for (int j = i+1; j < score.Length; j++)
+            {
+                for (int j = i + 1; j < score.Length; j++)
                     if (score[i] > score[j])
                     {
                         int tmp = score[i];
                         score[i] = score[j];
                         score[j] = tmp;
 
-                    }                        
+                    }
             }
 
             Console.WriteLine("Complete Selection Sorting!!!");
-            for ( int i = 0; i < score.Length; i++ )
+            for (int i = 0; i < score.Length; i++)
                 Console.WriteLine(score[i]);
         }
 
@@ -256,11 +258,11 @@ namespace Statement
             for (int i = 0; i < score.Length; i++)
             {
                 for (int j = 0; j < score.Length - i - 1; j++)
-                    if (score[j] > score[j+1])
+                    if (score[j] > score[j + 1])
                     {
                         int tmp = score[j];
-                        score[j] = score[j+1];
-                        score[j+1] = tmp;
+                        score[j] = score[j + 1];
+                        score[j + 1] = tmp;
 
                     }
             }
@@ -279,7 +281,7 @@ namespace Statement
 
             int index1 = 0, index2 = 0, indexMerged = 0;
 
-            for ( ; index1 < arr1.Length && index2 < arr2.Length; )
+            for (; index1 < arr1.Length && index2 < arr2.Length;)
             {
                 if (arr1[index1] < arr2[index2])
                     arrMerged[indexMerged++] = arr1[index1++];
@@ -302,7 +304,7 @@ namespace Statement
         static int Plus(int a, int b)
         {
             return a + b;
-            
+
         }
 
 
@@ -332,35 +334,21 @@ namespace Statement
             int rightIndex = rightStart;
             int mergedIndex = leftStart;
 
-            if (leftStart == leftEnd)
+            for (; leftIndex <= leftEnd && rightIndex <= rightEnd;)
             {
-                if (input[leftStart] > input[rightStart])
-                {
-                    merged[leftStart] = input[rightStart];
-                    merged[rightStart] = input[leftStart];
-                }
+                if (input[leftIndex] < input[rightIndex])
+                    merged[mergedIndex++] = input[leftIndex++];
                 else
-                {
-                    merged[leftStart] = input[leftStart];
-                    merged[rightStart] = input[rightStart];
-                }
+                    merged[mergedIndex++] = input[rightIndex++];
             }
-            else
-            { for (; leftIndex <= leftEnd && rightIndex <= rightEnd;)
-                {
-                    if (input[leftIndex] < input[rightIndex])
-                        merged[mergedIndex++] = input[leftIndex++];
-                    else
-                        merged[mergedIndex++] = input[rightIndex++];
-                }
 
-                if (leftIndex <= leftEnd)
-                    for (; leftIndex <= leftEnd;)
-                        merged[mergedIndex++] = input[leftIndex++];
-                else
-                    for (; rightIndex <= rightEnd;)
-                        merged[mergedIndex++] = input[rightIndex++];
-            }
+            if (leftIndex <= leftEnd)
+                for (; leftIndex <= leftEnd;)
+                    merged[mergedIndex++] = input[leftIndex++];
+            else
+                for (; rightIndex <= rightEnd;)
+                    merged[mergedIndex++] = input[rightIndex++];
+
         }
 
         static void MergeSort(int[] sorted, int[] input)
@@ -371,11 +359,11 @@ namespace Statement
 
             int leftStart = 0, leftEnd = 0, rightStart = 0, rightEnd = 0;
 
-            for ( int i = 1; i < input.Length ; i *= 2 )
+            for (int i = 1; i < input.Length; i *= 2)
             {
-                for (leftStart = 0; leftStart < input.Length - i ; leftStart += i * 2)
-                {                    
-                    leftEnd = leftStart + i - 1;                   
+                for (leftStart = 0; leftStart < input.Length - i; leftStart += i * 2)
+                {
+                    leftEnd = leftStart + i - 1;
                     rightStart = leftStart + i;
                     rightEnd = leftStart + 2 * i - 1;
                     if (rightEnd >= tmpArr.Length)
@@ -389,7 +377,58 @@ namespace Statement
             }
 
         }
-        
+
+        static void Merge(int[] merge, int[] leftArr, int[] rightArr)
+        {
+            int leftArrIndex = 0, rightArrIndex = 0, indexMerged = 0;
+
+            for (; leftArrIndex < leftArr.Length && rightArrIndex < rightArr.Length;)
+            {
+                if (leftArr[leftArrIndex] < rightArr[rightArrIndex])
+                    merge[indexMerged++] = leftArr[leftArrIndex++];
+                else
+                    merge[indexMerged++] = rightArr[rightArrIndex++];
+            }
+
+            if (leftArrIndex < leftArr.Length)
+                for (; leftArrIndex < leftArr.Length;)
+                    merge[indexMerged++] = leftArr[leftArrIndex++];
+            else
+                for (; rightArrIndex < rightArr.Length;)
+                    merge[indexMerged++] = rightArr[rightArrIndex++];
+        }
+
+        static void MergeSortRecursive(int[] sorted, int[] input)
+        {
+            if (input.Length > 1)
+            {
+                int mid = input.Length / 2;
+
+                int[] leftArr = new int[mid];
+                int[] leftSorted = new int[mid];
+
+                int[] rightArr = new int[input.Length - mid];
+                int[] rightSorted = new int[input.Length - mid];
+
+
+                int i = 0;
+                for (; i < mid; i++)
+                    leftArr[i] = input[i];
+                for (; i < input.Length; i++)
+                    rightArr[i - mid] = input[i];
+
+                MergeSortRecursive(leftSorted, leftArr);
+                MergeSortRecursive(rightSorted, rightArr);
+                Merge(sorted, leftSorted, rightSorted);
+            }
+            else
+            {
+                sorted[0] = input[0];
+            }
+
+
+        }
+
         static void PrintArr(int[] arr)
         {
             for (int i = 0; i < arr.Length; i++)
@@ -421,6 +460,7 @@ namespace Statement
             int[] sorted = new int[20];
             //SelectionSort(score);
             MergeSort(sorted, score);
+            //MergeSortRecursive(sorted, score);
             PrintArr(sorted);
 
 
@@ -430,6 +470,6 @@ namespace Statement
             //Console.WriteLine(Plus(f1, f2));
 
         }
-        
+
     }
 }
