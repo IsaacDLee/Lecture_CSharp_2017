@@ -270,6 +270,35 @@ namespace Statement
                 Console.WriteLine(score[i]);
         }
 
+        static void Merge()
+        {
+            int[] arr1 = new int[] { 3, 4, 7, 10, 15, 19, 23, 25, 40, 42 };
+            int[] arr2 = new int[] { 1, 2, 5, 20, 28, 30, 31, 32, 33, 43 };
+
+            int[] arrMerged = new int[20];
+
+            int index1 = 0, index2 = 0, indexMerged = 0;
+
+            for ( ; index1 < arr1.Length && index2 < arr2.Length; )
+            {
+                if (arr1[index1] < arr2[index2])
+                    arrMerged[indexMerged++] = arr1[index1++];
+                else
+                    arrMerged[indexMerged++] = arr2[index2++];
+            }
+
+            if (index1 < arr1.Length)
+                for (; index1 < arr1.Length;)
+                    arrMerged[indexMerged++] = arr1[index1++];
+            else
+                for (; index2 < arr2.Length;)
+                    arrMerged[indexMerged++] = arr2[index2++];
+
+
+            for (int i = 0; i < arrMerged.Length; i++)
+                Console.Write(arrMerged[i] + ", ");
+        }
+
         static int Plus(int a, int b)
         {
             return a + b;
@@ -295,7 +324,8 @@ namespace Statement
             //FindMaxInArray();
             //FindMinInArray();
             //SelectionSort();
-            BubbleSort();
+            //BubbleSort();
+            Merge();
 
             //float f1 = 1.0f, f2 = 2.0f;
             //Console.WriteLine(Plus(f1, f2));
