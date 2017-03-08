@@ -306,6 +306,35 @@ namespace Statement
         }
 
 
+        static void SelectionSort(int[] arr)
+        {
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                for (int j = i + 1; j < arr.Length; j++)
+                    if (arr[i] > arr[j])
+                    {
+                        int tmp = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = tmp;
+
+                    }
+            }
+
+            Console.WriteLine("Complete Selection Sorting!!!");
+            for (int i = 0; i < arr.Length; i++)
+                Console.WriteLine(arr[i]);
+        }
+
+        static void Merge(int[] merged, int[] )
+        {
+
+        }
+
+        static void MergeSort(int[] sorted, int[] input)
+        {
+        } 
+
         static void Main(string[] args)
         {
             //IsLinesIntersected();
@@ -325,7 +354,11 @@ namespace Statement
             //FindMinInArray();
             //SelectionSort();
             //BubbleSort();
-            Merge();
+            //Merge();
+
+            int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
+            SelectionSort(score);
+
 
             //float f1 = 1.0f, f2 = 2.0f;
             //Console.WriteLine(Plus(f1, f2));
