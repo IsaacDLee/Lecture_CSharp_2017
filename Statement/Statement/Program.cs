@@ -326,14 +326,75 @@ namespace Statement
                 Console.WriteLine(arr[i]);
         }
 
-        static void Merge(int[] merged, int[] )
+        static void Merge(int[] merged, int[] input, int leftStart, int leftEnd, int rightStart, int rightEnd)
         {
+            int leftIndex = leftStart;
+            int rightIndex = rightStart;
+            int mergedIndex = leftStart;
 
+            if (leftStart == leftEnd)
+            {
+                if (input[leftStart] > input[rightStart])
+                {
+                    merged[leftStart] = input[rightStart];
+                    merged[rightStart] = input[leftStart];
+                }
+                else
+                {
+                    merged[leftStart] = input[leftStart];
+                    merged[rightStart] = input[rightStart];
+                }
+            }
+            else
+            { for (; leftIndex <= leftEnd && rightIndex <= rightEnd;)
+                {
+                    if (input[leftIndex] < input[rightIndex])
+                        merged[mergedIndex++] = input[leftIndex++];
+                    else
+                        merged[mergedIndex++] = input[rightIndex++];
+                }
+
+                if (leftIndex <= leftEnd)
+                    for (; leftIndex <= leftEnd;)
+                        merged[mergedIndex++] = input[leftIndex++];
+                else
+                    for (; rightIndex <= rightEnd;)
+                        merged[mergedIndex++] = input[rightIndex++];
+            }
         }
 
         static void MergeSort(int[] sorted, int[] input)
         {
-        } 
+            int[] tmpArr = new int[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                tmpArr[i] = input[i];
+
+            int leftStart = 0, leftEnd = 0, rightStart = 0, rightEnd = 0;
+
+            for ( int i = 1; i < input.Length ; i *= 2 )
+            {
+                for (leftStart = 0; leftStart < input.Length - i ; leftStart += i * 2)
+                {                    
+                    leftEnd = leftStart + i - 1;                   
+                    rightStart = leftStart + i;
+                    rightEnd = leftStart + 2 * i - 1;
+                    if (rightEnd >= tmpArr.Length)
+                        rightEnd = tmpArr.Length - 1;
+
+                    Merge(sorted, tmpArr, leftStart, leftEnd, rightStart, rightEnd);
+                }
+
+                for (int j = 0; j < input.Length; j++)
+                    tmpArr[j] = sorted[j];
+            }
+
+        }
+        
+        static void PrintArr(int[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+                Console.WriteLine(arr[i]);
+        }
 
         static void Main(string[] args)
         {
@@ -357,7 +418,12 @@ namespace Statement
             //Merge();
 
             int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
-            SelectionSort(score);
+            int[] sorted = new int[20];
+            //SelectionSort(score);
+            MergeSort(sorted, score);
+            PrintArr(sorted);
+
+
 
 
             //float f1 = 1.0f, f2 = 2.0f;
