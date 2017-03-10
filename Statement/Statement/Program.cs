@@ -435,6 +435,16 @@ namespace Statement
                 Console.WriteLine(arr[i]);
         }
 
+        static int FibonacciRecursive(int num)
+        {
+            if (num <= 2)
+                return 1;
+
+            return FibonacciRecursive(num - 1) + FibonacciRecursive(num - 2);
+
+
+        }
+
         static void Main(string[] args)
         {
             //IsLinesIntersected();
@@ -463,7 +473,7 @@ namespace Statement
             //MergeSortRecursive(sorted, score);
             PrintArr(sorted);
 
-
+            Console.WriteLine(FibonacciRecursive(7));
 
 
             //float f1 = 1.0f, f2 = 2.0f;
