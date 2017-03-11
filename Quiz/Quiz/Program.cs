@@ -159,11 +159,128 @@ namespace Quiz
         static void DiliveryThreeFive(int weight)
         {
             int cntFive = weight / 5;
-             
+            int reminder = weight - cntFive * 5;
+            
+            for (; reminder % 3 != 0 ;)
+            {
+                cntFive--;
+                reminder += 5;
+            }
 
-            if ( )
+            int cntThree = (weight - cntFive * 5) / 3;
+
+            Console.WriteLine("3kg : " + cntThree + ", 5kg : " + cntFive);
             
 
+        }
+
+        static void CountNumber(int pages)
+        {            
+            int posNum = 0; // 자릿수를 저장           
+
+
+            //자릿수 계산
+            int tmpPages = pages / 10;
+            for ( ; tmpPages > 0 ; tmpPages /= 10 )
+                posNum++;
+
+            int[] arrPages = new int[posNum + 1];
+
+
+            tmpPages = pages;
+            for ( int i = 0; i < arrPages.Length; i++ )
+            {
+                arrPages[i] = tmpPages % 10;
+                tmpPages /= 10;
+            }
+            
+            int[] countNumArr = new int[10]; // 각 숫자의 개수를 저장
+
+            for (int i = 0; i < countNumArr.Length; i++)
+                Console.Write(countNumArr[i] + " ");
+            Console.WriteLine();
+            
+            
+        }
+
+        static bool IsPalindrome(string str)
+        {
+            for (int i = 0; i < str.Length; i++)
+                if (str[i] != str[str.Length - 1 - i])
+                    return false;
+
+            return true;
+        }
+
+        static int Select(int[] arr, int k)
+        {
+            int[] biggerArr = new int[arr.Length];
+            int[] equalArr = new int[arr.Length];
+            int[] smallerArr = new int[arr.Length];
+
+
+            int cntSmaller = 0;
+            int curSelectedNum = 0;
+            int curLength = arr.Length;
+            int[] tmpArr = arr;
+
+            for (;;)
+            {
+                curSelectedNum = tmpArr[ curLength / 2];
+
+                int smallerIndex = 0;
+                int biggerIndex = 0;
+                int equalIndex = 0;
+
+                for (int i = 0; i < curLength; i++)
+                    if (tmpArr[i] < curSelectedNum)
+                        smallerArr[smallerIndex++] = tmpArr[i];
+                    else if (tmpArr[i] > curSelectedNum)
+                        biggerArr[biggerIndex++] = tmpArr[i];
+                    else
+                        equalArr[equalIndex++] = tmpArr[i];
+
+                if (cntSmaller + smallerIndex < k)
+                {
+                    if (cntSmaller + smallerIndex + equalIndex < k)
+                    {
+                        cntSmaller += smallerIndex + equalIndex;
+                        tmpArr = biggerArr;
+                        curLength = biggerIndex;
+                    }
+                    else if (cntSmaller + smallerIndex + equalIndex > k)
+                        return curSelectedNum;
+                }
+                else if (cntSmaller + smallerIndex > k)
+                {
+                    tmpArr = smallerArr;
+                    curLength = smallerIndex;
+                }
+                else
+                {
+                    int max = smallerArr[0];
+                    for (int i = 1; i < smallerIndex; i++)
+                        if (max < smallerArr[i])
+                            max = smallerArr[i];
+                    return max;
+                }
+            }
+        }
+
+        static string IsWordInSentence(string str, string word)
+        {           
+
+            for ( int i = 0; i < str.Length - word.Length + 1; i++ )
+            {
+                bool isWord = true;
+                for (int j = 0; j < word.Length; j++)
+                    if (str[i + j] != word[j])
+                        isWord = false;
+
+                if (isWord)
+                    return "found";
+            }
+            return "missing";
         }
 
         static void Main(string[] args)
@@ -214,6 +331,28 @@ namespace Quiz
 
             // 배달
             DiliveryThreeFive(18);
+            //DiliveryThreeFive(21);
+            //DiliveryThreeFive(31);
+
+            // 페이지까지의 각 숫자들의 개수
+            CountNumber(11);
+
+
+            //팰린드롬
+            Console.WriteLine(IsPalindrome("aba"));
+            Console.WriteLine(IsPalindrome("ab%ba"));
+            Console.WriteLine(IsPalindrome("9998999"));
+
+            //k번째 숫자
+            int[] arrForSelect = new int[] { 3, 5, 1, 5, 6, 7, 100, 45, 33, 97, 47, 32, 66, 103 };
+            Console.WriteLine(Select(arrForSelect, 8));
+
+            // "nemo'가 있는지
+            //string sentenceForIsWordInSentence = "marlin names this last egg nemo, a name that coral like";
+            string sentenceForIsWordInSentence = "a good-hearted and optimistic regal blue tang with short-term memory loss";
+            string wordForIsWordInSentence = "nemo";
+            Console.WriteLine(IsWordInSentence(sentenceForIsWordInSentence, wordForIsWordInSentence));
+
 
 
         }
