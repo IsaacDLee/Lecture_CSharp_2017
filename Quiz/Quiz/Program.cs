@@ -283,6 +283,46 @@ namespace Quiz
             return "missing";
         }
 
+        static string IntToStr(int num)
+        {
+            
+            int tmpNum = num;
+
+            bool isMinus = false;
+            if (num < 0) {
+                isMinus = true;
+                tmpNum = Math.Abs(tmpNum);
+            }
+
+            // 자릿수 계산
+            int posNum = 1;
+            for (; (tmpNum /= tmpNum) > 0;)
+                posNum++;
+
+            // string 크기 설정
+            int charLength = posNum;
+            if (isMinus)
+                charLength++;
+            
+            char[] charArr = new char[charLength];
+
+            int curIndex = 0;
+            if (isMinus)
+            {
+                tmpNum = Math.Abs(num);
+                charArr[curIndex++] = '-';
+            }
+            else
+                tmpNum = num;
+            
+            for (int i = 0; i < posNum; i++ )
+            {
+                charArr[curIndex++] = ;
+            }
+
+
+        }
+
         static void Main(string[] args)
         {
             // 20% 할인
