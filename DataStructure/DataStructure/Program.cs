@@ -108,7 +108,7 @@ namespace DataStructure
             Node top = null;
 
             public void push(int val)
-            {   
+            {
                 Node tmpNode = new Node();
                 tmpNode.val = val;
                 tmpNode.next = null;
@@ -157,8 +157,8 @@ namespace DataStructure
                     Console.WriteLine("stack is empty.");
                     return int.MaxValue;
 
-                }                
-                
+                }
+
             }
 
         }
@@ -174,7 +174,7 @@ namespace DataStructure
                 tmpNode.val = val;
                 tmpNode.next = null;
 
-                if ( head == null )
+                if (head == null)
                 {
                     head = tmpNode;
                     tail = tmpNode;
@@ -188,11 +188,11 @@ namespace DataStructure
 
             public int dequeue()
             {
-                if ( head != null )
+                if (head != null)
                 {
                     int returnVal = head.val;
 
-                    if ( head == tail )
+                    if (head == tail)
                         head = tail = null;
                     else
                         head = head.next;
@@ -236,15 +236,15 @@ namespace DataStructure
             {
                 parent.left = left;
                 parent.right = right;
-                
+
             }
 
             void TravelsByPre(BinaryTreeNode _root)
             {
                 Console.Write(_root.val + " ");
-                if ( _root.left != null)
+                if (_root.left != null)
                     TravelsByPre(_root.left);
-                if ( _root.right != null)
+                if (_root.right != null)
                     TravelsByPre(_root.right);
             }
 
@@ -259,7 +259,7 @@ namespace DataStructure
                     TravelsByIn(_root.left);
 
                 Console.Write(_root.val + " ");
-                
+
                 if (_root.right != null)
                     TravelsByIn(_root.right);
             }
@@ -278,7 +278,7 @@ namespace DataStructure
                     TravelsByPost(_root.right);
 
                 Console.Write(_root.val + " ");
-                
+
             }
 
 
@@ -292,6 +292,261 @@ namespace DataStructure
                 root = rootNode;
             }
 
+        }
+
+        class HeapNode
+        {
+            public int val;
+            public HeapNode left;
+            public HeapNode right;
+            public HeapNode parent;
+
+            public HeapNode()
+            {
+                val = 0;
+                parent = null;
+                left = null;
+                right = null;
+            }
+
+            public HeapNode(int _val)
+            {
+                val = _val;
+                parent = null;
+                left = null;
+                right = null;
+            }
+        }
+
+        class HeapByLinked
+        {
+            HeapNode root;
+            HeapNode dummy;
+            HeapNode last;
+
+            public HeapByLinked()
+            {
+                root = null;                
+                last = null;
+                dummy = new HeapNode();
+            }
+
+            void FindDummyPos()
+            {
+                HeapNode curNode = dummy;
+
+                if (curNode.parent.left == dummy)
+                {
+                    dummy = new HeapNode();
+                    
+                    curNode.parent.right = dummy;
+                    dummy.parent = curNode.parent;
+                }
+                else
+                {
+                    while (curNode.parent.left != curNode && curNode.parent != root)
+                        curNode = curNode.parent;
+
+                    if (curNode.parent.right == curNode)
+                        curNode = curNode.parent.left;
+                    else
+                        curNode = curNode.parent.right;
+
+                    while (curNode.left != null)
+                        curNode = curNode.left;
+
+                    dummy = new HeapNode();
+                    
+                    curNode.left = dummy;
+                    dummy.parent = curNode;
+
+                }
+
+            }
+
+            void MakeHeapFromLeaf()
+            {
+                HeapNode curNode = last;
+
+                if ( curNode != root)
+                {
+                    while ( curNode.val > curNode.parent.val )
+                    {
+                        int tmp = curNode.val;
+                        curNode.val = curNode.parent.val;
+                        curNode.parent.val = tmp;
+                                                
+                        curNode = curNode.parent;
+                        if (curNode == root)
+                            break;
+                    }
+                }
+
+            }
+
+            public void Insert(int _val)
+            {
+                if (root == null)
+                {
+                    root = dummy;
+                    root.val = _val;
+                    last = root;
+                    root.left = dummy = new HeapNode();
+                    dummy.parent = root;
+                }
+                else
+                {
+                    last = dummy;
+                    last.val = _val;
+                    FindDummyPos();
+                    MakeHeapFromLeaf();
+
+                }
+            }
+
+            void FindLastPos()
+            {
+                HeapNode curNode = last;
+
+                if ( last == root )
+                {
+                    root = null;
+                    last = null;                    
+                }
+                else
+                {
+                    if (last.parent.right == last)
+                        last = last.parent.left;
+                    else
+                    {
+                        while ((curNode.parent.right != curNode) && (curNode.parent != root))
+                            curNode = curNode.parent;
+
+                        if (curNode.parent.left == curNode)
+                            curNode = curNode.parent.right;
+                        else
+                            curNode = curNode.parent.left;
+
+                        while (curNode.right != null)
+                            curNode = curNode.right;
+
+                        last = curNode;
+
+                    }
+                }
+                
+            }
+
+            void MakeHeapFromRoot()
+            {
+                HeapNode curNode = root;
+
+                while ( curNode.left != null || curNode.right != null )
+                {
+                    if ( curNode.left != null )
+                    {
+                        if ( curNode.right != null )
+                        {
+                            if (curNode.val < curNode.left.val)
+                            {
+                                if (curNode.left.val < curNode.right.val)
+                                {
+                                    int tmp = curNode.val;
+                                    curNode.val = curNode.right.val;
+                                    curNode.right.val = tmp;
+
+                                    curNode = curNode.right;
+                                }
+                                else
+                                {
+                                    int tmp = curNode.val;
+                                    curNode.val = curNode.left.val;
+                                    curNode.left.val = tmp;
+
+                                    curNode = curNode.left;
+                                }
+                            }
+                            else if (curNode.val < curNode.right.val)
+                            {
+                                int tmp = curNode.val;
+                                curNode.val = curNode.right.val;
+                                curNode.right.val = tmp;
+
+                                curNode = curNode.right;
+                            }
+                            else
+                                break;
+                        }
+                        else
+                        {
+                            if (curNode.val < curNode.left.val)
+                            {
+                                int tmp = curNode.val;
+                                curNode.val = curNode.left.val;
+                                curNode.left.val = tmp;
+
+                                curNode = curNode.left;
+                            }
+                            else
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        if (curNode.val < curNode.right.val)
+                        {
+                            int tmp = curNode.val;
+                            curNode.val = curNode.left.val;
+                            curNode.left.val = tmp;
+
+                            curNode = curNode.left;
+
+                        }
+                        else
+                            break;
+                    } 
+
+                }
+            }
+
+            public int Delete()
+            {
+                if (root == null)
+                {
+                    Console.WriteLine("Heap is empty!!!");
+                    return -1;
+                }
+                else
+                {
+                    int returnVal = root.val;
+                    root.val = last.val;
+                    if (dummy.parent.left == dummy)
+                        dummy.parent.left = null;
+                    else
+                        dummy.parent.right = null;
+                    dummy = last;
+                    FindLastPos();
+                    MakeHeapFromRoot();
+
+                    return returnVal;
+                }
+            }
+
+            void TravelsByPre(HeapNode _root)
+            {
+                if ( _root != dummy )
+                    Console.Write(_root.val + " ");
+
+                if (_root.left != null)
+                    TravelsByPre(_root.left);
+                if (_root.right != null)
+                    TravelsByPre(_root.right);                
+            }
+
+            public void TravelsByPre()
+            {
+                TravelsByPre(root);
+            }
         }
 
 
@@ -321,6 +576,29 @@ namespace DataStructure
 
             bTree.TravelsByPost();
             Console.WriteLine();
+
+            // heap test
+            HeapByLinked myHeap = new HeapByLinked();
+
+            myHeap.Insert(0);
+            myHeap.Insert(1);
+            myHeap.Insert(2);
+            myHeap.Insert(3);
+            myHeap.Insert(4);
+            myHeap.Insert(5);
+            myHeap.Insert(6);
+
+
+            myHeap.TravelsByPre();
+            Console.WriteLine();
+
+            Console.WriteLine(myHeap.Delete());
+            myHeap.TravelsByPre();
+            Console.WriteLine();
+
+            
+
+
         }
     }
 }
