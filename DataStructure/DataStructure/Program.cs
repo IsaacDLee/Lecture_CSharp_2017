@@ -326,7 +326,7 @@ namespace DataStructure
 
             public HeapByLinked()
             {
-                root = null;                
+                root = null;
                 last = null;
                 dummy = new HeapNode();
             }
@@ -338,7 +338,7 @@ namespace DataStructure
                 if (curNode.parent.left == dummy)
                 {
                     dummy = new HeapNode();
-                    
+
                     curNode.parent.right = dummy;
                     dummy.parent = curNode.parent;
                 }
@@ -356,7 +356,7 @@ namespace DataStructure
                         curNode = curNode.left;
 
                     dummy = new HeapNode();
-                    
+
                     curNode.left = dummy;
                     dummy.parent = curNode;
 
@@ -368,14 +368,14 @@ namespace DataStructure
             {
                 HeapNode curNode = last;
 
-                if ( curNode != root)
+                if (curNode != root)
                 {
-                    while ( curNode.val > curNode.parent.val )
+                    while (curNode.val > curNode.parent.val)
                     {
                         int tmp = curNode.val;
                         curNode.val = curNode.parent.val;
                         curNode.parent.val = tmp;
-                                                
+
                         curNode = curNode.parent;
                         if (curNode == root)
                             break;
@@ -408,10 +408,10 @@ namespace DataStructure
             {
                 HeapNode curNode = last;
 
-                if ( last == root )
+                if (last == root)
                 {
                     root = null;
-                    last = null;                    
+                    last = null;
                 }
                 else
                 {
@@ -434,18 +434,16 @@ namespace DataStructure
 
                     }
                 }
-                
+
             }
 
             void MakeHeapFromRoot()
             {
                 HeapNode curNode = root;
 
-                while ( curNode.left != null || curNode.right != null )
+                while (curNode.left != null )
                 {
-                    if ( curNode.left != null )
-                    {
-                        if ( curNode.right != null )
+                    if (curNode.right != null)
                         {
                             if (curNode.val < curNode.left.val)
                             {
@@ -484,31 +482,13 @@ namespace DataStructure
                                 int tmp = curNode.val;
                                 curNode.val = curNode.left.val;
                                 curNode.left.val = tmp;
-
-                                curNode = curNode.left;
                             }
-                            else
-                                break;
+
+                            break;
                         }
                     }
-                    else
-                    {
-                        if (curNode.val < curNode.right.val)
-                        {
-                            int tmp = curNode.val;
-                            curNode.val = curNode.left.val;
-                            curNode.left.val = tmp;
-
-                            curNode = curNode.left;
-
-                        }
-                        else
-                            break;
-                    } 
-
                 }
-            }
-
+            
             public int Delete()
             {
                 if (root == null)
@@ -534,13 +514,13 @@ namespace DataStructure
 
             void TravelsByPre(HeapNode _root)
             {
-                if ( _root != dummy )
+                if (_root != dummy)
                     Console.Write(_root.val + " ");
 
                 if (_root.left != null)
                     TravelsByPre(_root.left);
                 if (_root.right != null)
-                    TravelsByPre(_root.right);                
+                    TravelsByPre(_root.right);
             }
 
             public void TravelsByPre()
@@ -549,6 +529,129 @@ namespace DataStructure
             }
         }
 
+
+        class HeapByArray
+        {
+            int[] buffer;
+            int last;
+
+            public HeapByArray()
+            {
+                buffer = new int[100];
+                last = -1;
+            }
+            public HeapByArray(int length)
+            {
+                buffer = new int[length];
+                last = -1;
+            }
+
+            public void Insert(int _val)
+            {
+                buffer[++last] = _val;
+
+                if ( last > 0 )
+                {
+                    int curIndex = last;
+                    int parentIndex = (last - 1) / 2;
+
+                    while (buffer[curIndex] > buffer[parentIndex])
+                    {
+                        int tmp = buffer[curIndex];
+                        buffer[curIndex] = buffer[parentIndex];
+                        buffer[parentIndex] = tmp;
+
+                        if (parentIndex != 0)
+                        {
+                            curIndex = parentIndex;
+                            parentIndex = (parentIndex - 1) / 2;
+                        }
+                        else
+                            break;                        
+                    }
+                }
+            }
+
+            public int Delete()
+            {
+
+                if (last < 0)
+                {
+                    Console.WriteLine("Heap is empty!!!");
+                    return 0;
+                }
+                else
+                {
+                    int returnVal = buffer[0];
+                    buffer[0] = buffer[last--];
+
+                    int curIndex = 0;
+                    int leftChildIndex = curIndex * 2 + 1;
+                    int rightChildIndex = leftChildIndex + 1;
+
+                    while ( leftChildIndex <= last )
+                    {
+                        if ( rightChildIndex <= last )
+                        {
+                            if (buffer[curIndex] < buffer[leftChildIndex])
+                            {
+                                if ( buffer[leftChildIndex] < buffer[rightChildIndex] )
+                                {
+                                    int tmp = buffer[curIndex];
+                                    buffer[curIndex] = buffer[rightChildIndex];
+                                    buffer[rightChildIndex] = tmp;
+
+                                    curIndex = rightChildIndex;
+                                    leftChildIndex = curIndex * 2 + 1;
+                                    rightChildIndex = leftChildIndex + 1;
+                                }
+                                else
+                                {
+                                    int tmp = buffer[curIndex];
+                                    buffer[curIndex] = buffer[leftChildIndex];
+                                    buffer[leftChildIndex] = tmp;
+
+                                    curIndex = leftChildIndex;
+                                    leftChildIndex = curIndex * 2 + 1;
+                                    rightChildIndex = leftChildIndex + 1;
+                                }
+                            }
+                            else if (buffer[curIndex] < buffer[rightChildIndex])
+                            {
+                                int tmp = buffer[curIndex];
+                                buffer[curIndex] = buffer[rightChildIndex];
+                                buffer[rightChildIndex] = tmp;
+
+                                curIndex = rightChildIndex;
+                                leftChildIndex = curIndex * 2 + 1;
+                                rightChildIndex = leftChildIndex + 1;
+                            }
+                            else
+                                break;
+                        }
+                        else
+                        {
+                            if ( buffer[curIndex] < buffer[leftChildIndex])
+                            {
+                                int tmp = buffer[curIndex];
+                                buffer[curIndex] = buffer[leftChildIndex];
+                                buffer[leftChildIndex] = tmp;                                
+                            }
+                            break;
+                        }
+                    }
+
+                    return returnVal;
+                }
+            }
+
+            public void Print()
+            {
+                for (int i = 0; i <= last; i++)
+                    Console.Write(buffer[i] + ", ");
+                Console.WriteLine();
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -577,26 +680,40 @@ namespace DataStructure
             bTree.TravelsByPost();
             Console.WriteLine();
 
-            // heap test
-            HeapByLinked myHeap = new HeapByLinked();
+            // test heap by link
+            HeapByLinked myHeapByLinked = new HeapByLinked();
 
-            myHeap.Insert(0);
-            myHeap.Insert(1);
-            myHeap.Insert(2);
-            myHeap.Insert(3);
-            myHeap.Insert(4);
-            myHeap.Insert(5);
-            myHeap.Insert(6);
+            myHeapByLinked.Insert(0);
+            myHeapByLinked.Insert(1);
+            myHeapByLinked.Insert(2);
+            myHeapByLinked.Insert(3);
+            myHeapByLinked.Insert(4);
+            myHeapByLinked.Insert(5);
+            myHeapByLinked.Insert(6);
 
 
-            myHeap.TravelsByPre();
+            myHeapByLinked.TravelsByPre();
             Console.WriteLine();
 
-            Console.WriteLine(myHeap.Delete());
-            myHeap.TravelsByPre();
+            Console.WriteLine(myHeapByLinked.Delete());
+            myHeapByLinked.TravelsByPre();
             Console.WriteLine();
 
-            
+            // test heap by array
+            HeapByArray myHeapByArray = new HeapByArray();
+
+            myHeapByArray.Insert(0);
+            myHeapByArray.Insert(1);
+            myHeapByArray.Insert(2);
+            myHeapByArray.Insert(3);
+            myHeapByArray.Insert(4);
+            myHeapByArray.Insert(5);
+            myHeapByArray.Insert(6);
+
+            myHeapByArray.Print();
+
+            Console.WriteLine(myHeapByArray.Delete());
+            myHeapByArray.Print();
 
 
         }
