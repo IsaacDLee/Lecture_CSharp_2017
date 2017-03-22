@@ -8,6 +8,29 @@ namespace Sorting
 {
     class Program
     {
+
+        static void BubbleSort()
+        {
+            int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
+
+
+            for (int i = 0; i < score.Length; i++)
+            {
+                for (int j = 0; j < score.Length - i - 1; j++)
+                    if (score[j] > score[j + 1])
+                    {
+                        int tmp = score[j];
+                        score[j] = score[j + 1];
+                        score[j + 1] = tmp;
+
+                    }
+            }
+
+            Console.WriteLine("Complete Bubble Sorting!!!");
+            for (int i = 0; i < score.Length; i++)
+                Console.WriteLine(score[i]);
+        }
+
         static void SelectionSort(int[] arr)
         {
 
@@ -128,8 +151,23 @@ namespace Sorting
 
 
         }
+
+        static void PrintArr(int[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+                Console.WriteLine(arr[i]);
+        }
+
         static void Main(string[] args)
         {
+
+            int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
+            int[] sorted = new int[20];
+            
+            //SelectionSort(score);
+            //MergeSort(sorted, score);
+            //MergeSortRecursive(sorted, score);
+            PrintArr(sorted);
         }
     }
 }
