@@ -653,6 +653,205 @@ namespace DataStructure
             }
         }
 
+
+        class BSTNode
+        {
+            public int val;
+            public BSTNode left;
+            public BSTNode right;
+            public BSTNode parent;
+
+            public BSTNode()
+            {
+                val = 0;
+                parent = null;
+                left = null;
+                right = null;
+            }
+
+            public BSTNode(int _val)
+            {
+                val = _val;
+                parent = null;
+                left = null;
+                right = null;
+            }
+
+        }
+
+        class BST
+        {
+            BSTNode root;
+            
+            public BST()
+            {
+                root = null;                
+            }
+
+            public void Insert(int val)
+            {
+                if ( root == null )
+                    root = new BSTNode(val);
+                else
+                {
+                    BSTNode curNode = root;
+
+                    while ( true )
+                    {
+                        if (curNode.val > val)
+                        {
+                            if (curNode.left == null)
+                            {
+                                curNode.left = new BSTNode(val);
+                                curNode.left.parent = curNode;
+                                break;
+                            }
+                            else
+                                curNode = curNode.left;
+                        }
+                        else if (curNode.val < val)
+                        {
+                            if (curNode.right == null)
+                            {
+                                curNode.right = new BSTNode(val);
+                                curNode.right.parent = curNode;
+                                break;
+                            }
+                            else
+                                curNode = curNode.right;
+                        }
+                    }
+
+                }
+            }
+
+            public void Delete(int val)
+            {
+                BSTNode curNode = root;
+
+                if (curNode == null)
+                    Console.WriteLine("BST is empty!!!");
+                else
+                {
+                    while ( true )
+                    {
+                        if ( curNode.val == val )
+                        {
+                            if ( curNode.left != null )
+                            {
+                                if ( curNode.right != null )
+                                {
+                                    BSTNode leftMaxNode = curNode.left;
+
+                                    while (leftMaxNode.right != null)
+                                        leftMaxNode = leftMaxNode.right;
+
+                                    curNode.val = leftMaxNode.val;
+                                    if (leftMaxNode.left != null)
+                                    {
+                                        leftMaxNode.left.parent = leftMaxNode.parent;
+                                        leftMaxNode.parent.right = leftMaxNode.left;
+                                    }
+                                    else
+                                        leftMaxNode.parent.right = null;
+                                    
+                                }
+                                else
+                                {
+                                    curNode.left.parent = curNode.parent;
+
+                                    if (curNode.parent.left == curNode)                                    
+                                        curNode.parent.left = curNode.left;
+                                    else
+                                        curNode.parent.right = curNode.left;
+                                }
+                            }
+                            else
+                            {
+                                if ( curNode.right != null )
+                                {
+                                    curNode.right.parent = curNode.parent;
+                                    if (curNode.parent.left == curNode)
+                                        curNode.parent.left = curNode.right;
+                                    else
+                                        curNode.parent.right = curNode.right;
+                                }
+                                else
+                                {
+                                    if (curNode.parent.left == curNode)
+                                        curNode.parent.left = null;
+                                    else
+                                        curNode.parent.right = null;                                            
+                                }
+                            }
+                            break;
+                        }
+                        else if ( curNode.val > val )
+                        {
+                            if (curNode.left == null)
+                            {
+                                Console.WriteLine(val + " is not BST!!!");
+                                break;
+                            }
+                            else
+                                curNode = curNode.left;
+                        }
+                        else
+                        {
+                            if (curNode.right == null)
+                            {
+                                Console.WriteLine(val + " is not BST!!!");
+                                break;
+                            }
+                            else
+                                curNode = curNode.right;
+
+                        }
+
+                    }
+                }
+            }
+
+            public bool Search(int val)
+            {
+                BSTNode curNode = root;
+
+                if (curNode == null)
+                    return false;
+                else
+                {
+                    while ( curNode != null )
+                    {
+                        if (curNode.val == val)
+                            return true;
+                        else if (curNode.val > val)
+                            curNode = curNode.left;
+                        else
+                            curNode = curNode.right;
+                    }
+
+                    return false;
+                }
+            }
+
+            void TravelsByIn(BSTNode _root)
+            {
+                if (_root.left != null)
+                    TravelsByIn(_root.left);
+
+                Console.Write(_root.val + " ");
+
+                if (_root.right != null)
+                    TravelsByIn(_root.right);
+            }
+
+            public void TravelsByIn()
+            {
+                TravelsByIn(root);
+                Console.WriteLine();
+            }
+        }
+
         static void Main(string[] args)
         {
             // travels binary tree
@@ -714,6 +913,47 @@ namespace DataStructure
 
             Console.WriteLine(myHeapByArray.Delete());
             myHeapByArray.Print();
+
+            //Binary Search Tree
+            Console.WriteLine("-----------------");
+            Console.WriteLine("It's BST Test!!!");
+            BST myBST = new BST();
+
+            myBST.Insert(50);
+            myBST.Insert(20);
+            myBST.Insert(70);
+            myBST.Insert(30);
+            myBST.Insert(10);
+            myBST.Insert(60);
+            myBST.Insert(80);
+            myBST.Insert(5);
+            myBST.Insert(15);
+            myBST.Insert(25);
+            myBST.Insert(35);
+            myBST.Insert(55);
+            myBST.Insert(65);
+            myBST.Insert(75);
+            myBST.Insert(85);
+            myBST.Insert(90);
+            myBST.Insert(3);
+            myBST.Insert(8);
+
+            myBST.TravelsByIn();
+            Console.WriteLine(myBST.Search(4));
+            Console.WriteLine(myBST.Search(5));
+
+            myBST.Delete(8);
+            myBST.TravelsByIn();
+
+            myBST.Delete(20);
+            myBST.TravelsByIn();
+
+            myBST.Delete(4);
+            myBST.TravelsByIn();
+
+
+
+
 
 
         }
