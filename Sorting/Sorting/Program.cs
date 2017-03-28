@@ -152,6 +152,54 @@ namespace Sorting
 
         }
 
+        static void Swap(ref int a, ref int b)
+        {
+            int tmp = a;
+            a = b;
+            b = tmp;
+
+        }
+
+        static void QuickSort(int[] arr, int first, int last)
+        {
+            if ( last - first < 2 )
+            {
+                if (arr[first] > arr[last])
+                    Swap(ref arr[first], ref arr[last]);
+            }
+            else
+            {
+                int curfirst = first;
+                int curLast = last;
+                int pivot = arr[(first + last) / 2];
+                
+                while (curfirst < curLast)
+                {
+                    while (arr[curfirst] < pivot)
+                        curfirst++;
+                    while (arr[curLast] > pivot)
+                        curLast--;
+                    if ( curfirst < curLast )
+                        Swap(ref arr[curfirst++], ref arr[curLast--]);
+                }
+
+                QuickSort(arr, first, curLast);
+                QuickSort(arr, curfirst, last);
+
+            }
+        }
+
+        static void QuickSortRecursive(int[] arr)
+        {
+            QuickSort(arr, 0, arr.Length - 1);
+
+        }
+
+        static void QuickSort(int[] arr)
+        {
+
+        }
+
         static void PrintArr(int[] arr)
         {
             for (int i = 0; i < arr.Length; i++)
@@ -163,11 +211,17 @@ namespace Sorting
 
             int[] score = new int[20] { 80, 74, 81, 90, 34, 84, 76, 95, 45, 66, 74, 82, 76, 57, 51, 88, 73, 98, 51, 60 };
             int[] sorted = new int[20];
-            
+
             //SelectionSort(score);
             //MergeSort(sorted, score);
             //MergeSortRecursive(sorted, score);
-            PrintArr(sorted);
+            //PrintArr(sorted);
+
+            QuickSortRecursive(score);
+            PrintArr(score);
+
+
+
         }
     }
 }
