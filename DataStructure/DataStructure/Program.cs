@@ -25,10 +25,10 @@ namespace DataStructure
                 intArr = new int[length];
             }
 
-            public void push(int val)
+            public void push(int _val)
             {
                 if (top < intArr.Length)
-                    intArr[top++] = val;
+                    intArr[top++] = _val;
                 else
                     Console.WriteLine("stack is full!!");
             }
@@ -81,9 +81,9 @@ namespace DataStructure
         {
             LinkedList<int> buffer = new LinkedList<int>();
 
-            public void push(int val)
+            public void push(int _val)
             {
-                buffer.AddLast(val);
+                buffer.AddLast(_val);
             }
 
             public int pot()
@@ -107,10 +107,10 @@ namespace DataStructure
             Node head = null;
             Node top = null;
 
-            public void push(int val)
+            public void push(int _val)
             {
                 Node tmpNode = new Node();
-                tmpNode.val = val;
+                tmpNode.val = _val;
                 tmpNode.next = null;
 
                 if (head != null)
@@ -168,10 +168,10 @@ namespace DataStructure
             Node head = null;
             Node tail = null;
 
-            public void enqueue(int val)
+            public void enqueue(int _val)
             {
                 Node tmpNode = new Node();
-                tmpNode.val = val;
+                tmpNode.val = _val;
                 tmpNode.next = null;
 
                 if (head == null)
@@ -212,12 +212,14 @@ namespace DataStructure
             public int val;
             public BinaryTreeNode left;
             public BinaryTreeNode right;
+            public BinaryTreeNode parent;
 
             public BinaryTreeNode()
             {
                 val = 0;
                 left = null;
                 right = null;
+                parent = null;
             }
 
             public BinaryTreeNode(int _val)
@@ -225,17 +227,21 @@ namespace DataStructure
                 val = _val;
                 left = null;
                 right = null;
+                parent = null;
             }
         }
 
         class BinaryTree
         {
-            BinaryTreeNode root;
+            protected BinaryTreeNode root;
 
             public void Insert(BinaryTreeNode parent, BinaryTreeNode left, BinaryTreeNode right)
             {
                 parent.left = left;
                 parent.right = right;
+                left.parent = parent;
+                right.parent = parent;
+
 
             }
 
@@ -251,6 +257,7 @@ namespace DataStructure
             public void TravelsByPre()
             {
                 TravelsByPre(root);
+                Console.WriteLine();
             }
 
             void TravelsByIn(BinaryTreeNode _root)
@@ -267,6 +274,7 @@ namespace DataStructure
             public void TravelsByIn()
             {
                 TravelsByIn(root);
+                Console.WriteLine();
             }
 
             void TravelsByPost(BinaryTreeNode _root)
@@ -285,6 +293,7 @@ namespace DataStructure
             public void TravelsByPost()
             {
                 TravelsByPost(root);
+                Console.WriteLine();
             }
 
             public void SetRoot(BinaryTreeNode rootNode)
@@ -292,6 +301,157 @@ namespace DataStructure
                 root = rootNode;
             }
 
+        }
+
+        class BSTDerivedBT : BinaryTree
+        {
+            public void Insert(int _val)
+            {
+                if (root == null)
+                    root = new BinaryTreeNode(_val);
+                else
+                {
+                    BinaryTreeNode curNode = root;
+
+                    while (true)
+                    {
+                        if (curNode.val > _val)
+                        {
+                            if (curNode.left == null)
+                            {
+                                curNode.left = new BinaryTreeNode(_val);
+                                curNode.left.parent = curNode;
+                                break;
+                            }
+                            else
+                                curNode = curNode.left;
+                        }
+                        else if (curNode.val < _val)
+                        {
+                            if (curNode.right == null)
+                            {
+                                curNode.right = new BinaryTreeNode(_val);
+                                curNode.right.parent = curNode;
+                                break;
+                            }
+                            else
+                                curNode = curNode.right;
+                        }
+                    }
+
+                }
+            }
+
+            public void Delete(int _val)
+            {
+                BinaryTreeNode curNode = root;
+
+                if (curNode == null)
+                    Console.WriteLine("BST is empty!!!");
+                else
+                {
+                    while (true)
+                    {
+                        if (curNode.val == _val)
+                        {
+                            if (curNode.left != null)
+                            {
+                                if (curNode.right != null)
+                                {
+                                    BinaryTreeNode leftMaxNode = curNode.left;
+
+                                    while (leftMaxNode.right != null)
+                                        leftMaxNode = leftMaxNode.right;
+
+                                    curNode.val = leftMaxNode.val;
+                                    if (leftMaxNode.left != null)
+                                    {
+                                        leftMaxNode.left.parent = leftMaxNode.parent;
+                                        leftMaxNode.parent.right = leftMaxNode.left;
+                                    }
+                                    else
+                                        leftMaxNode.parent.right = null;
+
+                                }
+                                else
+                                {
+                                    curNode.left.parent = curNode.parent;
+
+                                    if (curNode.parent.left == curNode)
+                                        curNode.parent.left = curNode.left;
+                                    else
+                                        curNode.parent.right = curNode.left;
+                                }
+                            }
+                            else
+                            {
+                                if (curNode.right != null)
+                                {
+                                    curNode.right.parent = curNode.parent;
+                                    if (curNode.parent.left == curNode)
+                                        curNode.parent.left = curNode.right;
+                                    else
+                                        curNode.parent.right = curNode.right;
+                                }
+                                else
+                                {
+                                    if (curNode.parent.left == curNode)
+                                        curNode.parent.left = null;
+                                    else
+                                        curNode.parent.right = null;
+                                }
+                            }
+                            break;
+                        }
+                        else if (curNode.val > _val)
+                        {
+                            if (curNode.left == null)
+                            {
+                                Console.WriteLine(_val + " is not BST!!!");
+                                break;
+                            }
+                            else
+                                curNode = curNode.left;
+                        }
+                        else
+                        {
+                            if (curNode.right == null)
+                            {
+                                Console.WriteLine(_val + " is not BST!!!");
+                                break;
+                            }
+                            else
+                                curNode = curNode.right;
+
+                        }
+
+                    }
+                }
+
+            }
+
+            public bool Search(int _val)
+            {
+
+                BinaryTreeNode curNode = root;
+
+                if (curNode == null)
+                    return false;
+                else
+                {
+                    while (curNode != null)
+                    {
+                        if (curNode.val == _val)
+                            return true;
+                        else if (curNode.val > _val)
+                            curNode = curNode.left;
+                        else
+                            curNode = curNode.right;
+                    }
+
+                    return false;
+                }
+            }
         }
 
         class HeapNode
@@ -688,32 +848,32 @@ namespace DataStructure
                 root = null;                
             }
 
-            public void Insert(int val)
+            public void Insert(int _val)
             {
                 if ( root == null )
-                    root = new BSTNode(val);
+                    root = new BSTNode(_val);
                 else
                 {
                     BSTNode curNode = root;
 
                     while ( true )
                     {
-                        if (curNode.val > val)
+                        if (curNode.val > _val)
                         {
                             if (curNode.left == null)
                             {
-                                curNode.left = new BSTNode(val);
+                                curNode.left = new BSTNode(_val);
                                 curNode.left.parent = curNode;
                                 break;
                             }
                             else
                                 curNode = curNode.left;
                         }
-                        else if (curNode.val < val)
+                        else if (curNode.val < _val)
                         {
                             if (curNode.right == null)
                             {
-                                curNode.right = new BSTNode(val);
+                                curNode.right = new BSTNode(_val);
                                 curNode.right.parent = curNode;
                                 break;
                             }
@@ -725,7 +885,7 @@ namespace DataStructure
                 }
             }
 
-            public void Delete(int val)
+            public void Delete(int _val)
             {
                 BSTNode curNode = root;
 
@@ -735,7 +895,7 @@ namespace DataStructure
                 {
                     while ( true )
                     {
-                        if ( curNode.val == val )
+                        if ( curNode.val == _val)
                         {
                             if ( curNode.left != null )
                             {
@@ -786,11 +946,11 @@ namespace DataStructure
                             }
                             break;
                         }
-                        else if ( curNode.val > val )
+                        else if ( curNode.val > _val)
                         {
                             if (curNode.left == null)
                             {
-                                Console.WriteLine(val + " is not BST!!!");
+                                Console.WriteLine(_val + " is not BST!!!");
                                 break;
                             }
                             else
@@ -800,7 +960,7 @@ namespace DataStructure
                         {
                             if (curNode.right == null)
                             {
-                                Console.WriteLine(val + " is not BST!!!");
+                                Console.WriteLine(_val + " is not BST!!!");
                                 break;
                             }
                             else
@@ -950,6 +1110,43 @@ namespace DataStructure
 
             myBST.Delete(4);
             myBST.TravelsByIn();
+
+            //Binary Search Tree derived by Binary Tree
+            Console.WriteLine("-----------------");
+            Console.WriteLine("It's BST Test!!!");
+            BSTDerivedBT myBSTDerived = new BSTDerivedBT();
+
+            myBSTDerived.Insert(50);
+            myBSTDerived.Insert(20);
+            myBSTDerived.Insert(70);
+            myBSTDerived.Insert(30);
+            myBSTDerived.Insert(10);
+            myBSTDerived.Insert(60);
+            myBSTDerived.Insert(80);
+            myBSTDerived.Insert(5);
+            myBSTDerived.Insert(15);
+            myBSTDerived.Insert(25);
+            myBSTDerived.Insert(35);
+            myBSTDerived.Insert(55);
+            myBSTDerived.Insert(65);
+            myBSTDerived.Insert(75);
+            myBSTDerived.Insert(85);
+            myBSTDerived.Insert(90);
+            myBSTDerived.Insert(3);
+            myBSTDerived.Insert(8);
+
+            myBSTDerived.TravelsByIn();
+            Console.WriteLine(myBSTDerived.Search(4));
+            Console.WriteLine(myBSTDerived.Search(5));
+
+            myBSTDerived.Delete(8);
+            myBSTDerived.TravelsByIn();
+
+            myBSTDerived.Delete(20);
+            myBSTDerived.TravelsByIn();
+
+            myBSTDerived.Delete(4);
+            myBSTDerived.TravelsByIn();
 
 
 
